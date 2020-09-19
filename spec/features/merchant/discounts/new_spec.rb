@@ -19,6 +19,7 @@ RSpec.describe "As a merchant employee" do
 
     fill_in "Name", with: "10% Off"
     fill_in "Percent", with: 10
-    fill_in "Minimum Quantity", with: 10
+    fill_in "Minimum quantity", with: 10
+    click_on "Create Discount"
   end
 end
