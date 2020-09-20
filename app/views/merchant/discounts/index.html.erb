@@ -3,6 +3,7 @@
   <h2> <%= discount.name %> </h2>
   <p> <%= discount.percent %>% off when you buy <%= discount.minimum_quantity %> items! </p>
   <p><%= link_to "Edit Discount", "/merchant/discounts/#{discount.id}/edit" %></p>
+  <p><%= link_to "Delete Discount", "/merchant/discounts/#{discount.id}", method: :delete %></p>
 </section>
 <% end %>
 <br>
