@@ -58,7 +58,6 @@ RSpec.describe "As a user" do
       click_on "More of This!"
     end
 
-    save_and_open_page
     expect(page).to have_content("Price: $20.00")
     expect(page).to have_content("Quantity: 2")
     expect(page).to have_content("#{@discount3.name} discount applied!")
@@ -69,5 +68,27 @@ RSpec.describe "As a user" do
     expect(page).to have_content("Subtotal: $100.00")
     expect(page).to have_content("#{@discount4.name} discount applied!")
     expect(page).to_not have_content("#{@discount2.name} discount applied!")
+  end
+
+  it "Multiple items must be the same type to qualify for discounts"do
+
+    visit "/items/#{@ogre.id}"
+    click_on "Add to Cart"
+
+    visit "/items/#{@giant.id}"
+    click_on "Add to Cart"
+
+    visit "/cart"
+
+    expect(page).to_not have_content("#{@discount1.name} discount applied!")
+    expect(page).to_not have_content("#{@discount2.name} discount applied!")
+    expect(page).to_not have_content("#{@discount3.name} discount applied!")
+    expect(page).to_not have_content("#{@discount4.name} discount applied!")
+
+    within "#item-#{@ogre.id}" do
+      click_on "More of This!"
+    end
+
+    expect(page).to have_content("#{@discount3.name} discount applied!")
   end
 end
