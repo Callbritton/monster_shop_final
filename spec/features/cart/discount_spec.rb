@@ -16,8 +16,8 @@ RSpec.describe "As a user" do
     @chicken = @jim.items.create!(name: 'Chicken', description: "I'm a Chicken!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 44 )
 
     @discount1 = @megan.discounts.create!(name: "10% Off!", percent: 10, minimum_quantity: 5)
-    @discount2 = @megan.discounts.create!(name: "15% Off!", percent: 10, minimum_quantity: 10)
-    @discount3 = @megan.discounts.create!(name: "20% Off!", percent: 20, minimum_quantity: 20)
+    @discount2 = @megan.discounts.create!(name: "15% Off!", percent: 10, minimum_quantity: 4)
+    @discount3 = @megan.discounts.create!(name: "20% Off!", percent: 20, minimum_quantity: 2)
     @discount4 = @megan.discounts.create!(name: "50% Off!", percent: 50, minimum_quantity: 3)
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@default_user)
   end
@@ -40,5 +40,34 @@ RSpec.describe "As a user" do
     expect(page).to have_content("Subtotal: $30.00")
   end
 
+  it "applies the greater of two qualifying discounts when there is a conflict" do
+    visit "/items/#{@ogre.id}"
+    click_on "Add to Cart"
+    visit "/items/#{@giant.id}"
+    click_on "Add to Cart"
 
+    visit "/cart"
+
+    within "#item-#{@ogre.id}" do
+      click_on "More of This!"
+    end
+
+    within "#item-#{@giant.id}" do
+      click_on "More of This!"
+      click_on "More of This!"
+      click_on "More of This!"
+    end
+
+    save_and_open_page
+    expect(page).to have_content("Price: $20.00")
+    expect(page).to have_content("Quantity: 2")
+    expect(page).to have_content("#{@discount3.name} discount applied!")
+    expect(page).to have_content("Subtotal: $32.00")
+
+    expect(page).to have_content("Price: $50.00")
+    expect(page).to have_content("Quantity: 4")
+    expect(page).to have_content("Subtotal: $100.00")
+    expect(page).to have_content("#{@discount4.name} discount applied!")
+    expect(page).to_not have_content("#{@discount2.name} discount applied!")
+  end
 end
