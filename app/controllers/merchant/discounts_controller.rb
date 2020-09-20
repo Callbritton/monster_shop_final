@@ -27,12 +27,19 @@ class Merchant::DiscountsController < Merchant::BaseController
     discount = Discount.find(params[:id])
     discount.update(discount_params)
     if discount.save
-      flash[:success] = "Discount has been updated!"
+      flash[:success] = "Your discount has been updated!"
       redirect_to "/merchant/discounts"
     else
       flash[:notice] = "All fields must be completed. Please try again."
       redirect_to "/merchant/discounts/#{discount.id}/edit"
     end
+  end
+
+  def destroy
+    discount = Discount.find(params[:id])
+    discount.destroy
+    flash[:success] = "Your discount has been deleted!"
+    redirect_to "/merchant/discounts"
   end
 
 
