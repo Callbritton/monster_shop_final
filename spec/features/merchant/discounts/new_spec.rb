@@ -41,6 +41,6 @@ RSpec.describe "As a merchant employee" do
     expect(current_path).to eq("/merchant/discounts/new")
     expect(page).to_not have_content("Your discount has been created")
     expect(page).to_not have_content("30% Off")
-    expect(page).to have_content("Something has gone wrong, please try again")
+    expect(page).to have_content("All fields must be completed. Please try again")
   end
 end
