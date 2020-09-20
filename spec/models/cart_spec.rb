@@ -13,9 +13,9 @@ RSpec.describe Cart do
         @giant.id.to_s => 2
         })
 
-        @discount1 = @megan.discounts.create!(name: "10% Off!", percent: 10, minimum_quantity: 1)
-        @discount2 = @megan.discounts.create!(name: "15% Off!", percent: 15, minimum_quantity: 2)
-        @discount3 = @megan.discounts.create!(name: "20% Off!", percent: 20, minimum_quantity: 2)
+      @discount1 = @megan.discounts.create!(name: "10% Off!", percent: 10, minimum_quantity: 1)
+      @discount2 = @megan.discounts.create!(name: "15% Off!", percent: 15, minimum_quantity: 2)
+      @discount3 = @megan.discounts.create!(name: "20% Off!", percent: 20, minimum_quantity: 2)
     end
 
     it '.contents' do
