@@ -29,14 +29,14 @@ RSpec.describe "As a user" do
 
     visit "/cart"
 
-    within "item-#{@ogre.id}" do
+    within "#item-#{@ogre.id}" do
       click_on "More of This!"
       click_on "More of This!"
     end
 
     expect(page).to have_content("Price: $20.00")
     expect(page).to have_content("Quantity: 3")
-    expect(page).to have_content("#{@discount4.name} applied!")
+    expect(page).to have_content("#{@discount4.name} discount applied!")
     expect(page).to have_content("Subtotal: $30.00")
   end
 
