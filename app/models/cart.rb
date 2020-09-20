@@ -37,10 +37,24 @@ class Cart
   end
 
   def subtotal_of(item_id)
-    @contents[item_id.to_s] * Item.find(item_id).price
+    if find_discount(item_id).nil?
+      count_of(item_id) * Item.find(item_id).price
+    else
+      (count_of(item_id) * Item.find(item_id).price * (100.0 - find_discount(item_id)) / 100).round(2)
+    end
   end
 
   def limit_reached?(item_id)
     count_of(item_id) == Item.find(item_id).inventory
+  end
+
+  def find_discount(item_id)
+    item = Item.find(item_id)
+    item.merchant.discounts.where(minimum_quantity: count_of(item_id)).order(:percent).pluck(:percent).last
+  end
+
+  def discount_name(item_id)
+    item = Item.find(item_id)
+    item.merchant.discounts.where(minimum_quantity: count_of(item_id)).order(:percent).last.name
   end
 end
