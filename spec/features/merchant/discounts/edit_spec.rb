@@ -28,7 +28,7 @@ RSpec.describe "As a merchant employee" do
     fill_in "Minimum quantity", with: 30
     click_on "Edit Discount"
 
-    expect(page).to have_content("Discount has been updated!")
+    expect(page).to have_content("Your discount has been updated!")
     expect(current_path).to eq("/merchant/discounts")
     expect(page).to have_content("30% Off")
   end
