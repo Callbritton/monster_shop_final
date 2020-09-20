@@ -12,6 +12,10 @@ RSpec.describe Cart do
         @ogre.id.to_s => 1,
         @giant.id.to_s => 2
         })
+
+        @discount1 = @megan.discounts.create!(name: "10% Off!", percent: 10, minimum_quantity: 1)
+        @discount2 = @megan.discounts.create!(name: "15% Off!", percent: 15, minimum_quantity: 2)
+        @discount3 = @megan.discounts.create!(name: "20% Off!", percent: 20, minimum_quantity: 2)
     end
 
     it '.contents' do
@@ -49,8 +53,8 @@ RSpec.describe Cart do
     end
 
     it '.subtotal_of()' do
-      expect(@cart.subtotal_of(@ogre.id)).to eq(20)
-      expect(@cart.subtotal_of(@giant.id)).to eq(100)
+      expect(@cart.subtotal_of(@ogre.id)).to eq(18)
+      expect(@cart.subtotal_of(@giant.id)).to eq(80)
     end
 
     it '.limit_reached?()' do
@@ -62,6 +66,16 @@ RSpec.describe Cart do
       @cart.less_item(@giant.id.to_s)
 
       expect(@cart.count_of(@giant.id)).to eq(1)
+    end
+
+    it ".find_discount" do
+      expect(@cart.find_discount(@ogre.id)).to eq(10)
+      expect(@cart.find_discount(@giant.id)).to eq(20)
+    end
+
+    it ".discount_name" do
+      expect(@cart.discount_name(@ogre.id)).to eq("10% Off!")
+      expect(@cart.discount_name(@giant.id)).to eq("20% Off!")
     end
   end
 end
