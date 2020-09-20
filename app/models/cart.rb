@@ -27,7 +27,7 @@ class Cart
   def grand_total
     grand_total = 0.0
     @contents.each do |item_id, quantity|
-      grand_total += Item.find(item_id).price * quantity
+      grand_total += subtotal_of(item_id)
     end
     grand_total
   end
@@ -50,11 +50,11 @@ class Cart
 
   def find_discount(item_id)
     item = Item.find(item_id)
-    item.merchant.discounts.where(minimum_quantity: count_of(item_id)).order(:percent).pluck(:percent).last
+    item.merchant.discounts.where("minimum_quantity <= ?", count_of(item_id)).order(:percent).pluck(:percent).last
   end
 
   def discount_name(item_id)
     item = Item.find(item_id)
-    item.merchant.discounts.where(minimum_quantity: count_of(item_id)).order(:percent).last.name
+    item.merchant.discounts.where("minimum_quantity <= ?", count_of(item_id)).order(:percent).last.name
   end
 end
