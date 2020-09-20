@@ -32,4 +32,16 @@ RSpec.describe "As a merchant employee" do
     expect(current_path).to eq("/merchant/discounts")
     expect(page).to have_content("30% Off")
   end
+
+  it "must complete all fields to edit a discount" do
+    visit "/merchant/discounts/#{@discount1.id}/edit"
+
+    fill_in "Name", with: ""
+    fill_in "Percent", with: 30
+    fill_in "Minimum quantity", with: 30
+    click_on "Edit Discount"
+
+    expect(page).to have_content("All fields must be completed. Please try again.")
+    expect(current_path).to eq("/merchant/discounts/#{@discount1.id}/edit")
+  end
 end
