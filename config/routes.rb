@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#login'
   get '/logout', to: 'sessions#logout'
 
+  get "/", to: "home#index"
+
   namespace :merchant do
     get '/', to: 'dashboard#index', as: :dashboard
     resources :orders, only: :show
