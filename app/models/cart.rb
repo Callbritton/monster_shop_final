@@ -37,10 +37,14 @@ class Cart
   end
 
   def subtotal_of(item_id)
-    if find_discount(item_id).nil?
-      count_of(item_id) * Item.find(item_id).price
+    count_of(item_id) * item_price(item_id)
+  end
+
+  def item_price(item_id)
+    if find_discount(item_id) != nil
+      (Item.find(item_id).price * (100.0 - find_discount(item_id)) / 100).round(2)
     else
-      (count_of(item_id) * Item.find(item_id).price * (100.0 - find_discount(item_id)) / 100).round(2)
+      Item.find(item_id).price
     end
   end
 
@@ -50,11 +54,13 @@ class Cart
 
   def find_discount(item_id)
     item = Item.find(item_id)
-    item.merchant.discounts.where("minimum_quantity <= ?", count_of(item_id)).order(:percent).pluck(:percent).last
+    # This will determine if the count of items is enough for the minimum_quantity,
+    # and then order the items by percent, with the last one being the highest percent (and thus highest discount)
+    item.merchant.discounts.where("? >= minimum_quantity", count_of(item_id)).order(:percent).pluck(:percent).last
   end
 
   def discount_name(item_id)
     item = Item.find(item_id)
-    item.merchant.discounts.where("minimum_quantity <= ?", count_of(item_id)).order(:percent).last.name
+    item.merchant.discounts.where("? >= minimum_quantity", count_of(item_id)).order(:percent).last.name
   end
 end
