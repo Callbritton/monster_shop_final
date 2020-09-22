@@ -77,5 +77,10 @@ RSpec.describe Cart do
       expect(@cart.discount_name(@ogre.id)).to eq("10% Off!")
       expect(@cart.discount_name(@giant.id)).to eq("20% Off!")
     end
+
+    it ".item_price" do
+      expect(@cart.item_price(@ogre.id)).to eq(18.0)
+      expect(@cart.item_price(@giant.id)).to eq(40.0)
+    end
   end
 end
