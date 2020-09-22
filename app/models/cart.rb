@@ -42,7 +42,7 @@ class Cart
 
   def item_price(item_id)
     if find_discount(item_id) != nil
-      (Item.find(item_id).price * (100.0 - find_discount(item_id)) / 100).round(2)
+      Item.find(item_id).price * ((100.0 - find_discount(item_id)) / 100)
     else
       Item.find(item_id).price
     end
