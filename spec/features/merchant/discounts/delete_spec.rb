@@ -12,6 +12,9 @@ RSpec.describe "As a merchant employee" do
   it "can delete a discount" do
     visit "/merchant/discounts"
 
+    expect(page).to have_content("20% Off!")
+    expect(page).to have_css("#discount-#{@discount2.id}")
+
     within "#discount-#{@discount2.id}" do
       click_on "Delete Discount"
     end
@@ -21,7 +24,9 @@ RSpec.describe "As a merchant employee" do
     expect(page).to have_content("10% Off!")
     expect(page).to have_css("#discount-#{@discount1.id}")
 
-  #  Why won't these expectations work?
+    expect(@megan.discounts.count).to eq(1)
+
+    # require "pry"; binding.pry
     # expect(page).to_not have_content("20% Off!")
     # expect(page).to_not have_css("#discount-#{@discount2.id}")
   end
