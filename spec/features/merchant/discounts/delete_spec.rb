@@ -25,9 +25,5 @@ RSpec.describe "As a merchant employee" do
     expect(page).to have_css("#discount-#{@discount1.id}")
 
     expect(@megan.discounts.count).to eq(1)
-
-    # require "pry"; binding.pry
-    # expect(page).to_not have_content("20% Off!")
-    # expect(page).to_not have_css("#discount-#{@discount2.id}")
   end
 end

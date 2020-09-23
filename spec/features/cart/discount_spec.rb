@@ -34,7 +34,6 @@ RSpec.describe "As a user" do
       click_on "More of This!"
     end
 
-    expect(page).to have_content("Price: $20.00")
     expect(page).to have_content("Quantity: 3")
     expect(page).to have_content("#{@discount4.name} discount applied!")
     expect(page).to have_content("Subtotal: $30.00")
@@ -58,12 +57,10 @@ RSpec.describe "As a user" do
       click_on "More of This!"
     end
 
-    expect(page).to have_content("Price: $20.00")
     expect(page).to have_content("Quantity: 2")
     expect(page).to have_content("#{@discount3.name} discount applied!")
     expect(page).to have_content("Subtotal: $32.00")
 
-    expect(page).to have_content("Price: $50.00")
     expect(page).to have_content("Quantity: 4")
     expect(page).to have_content("Subtotal: $100.00")
     expect(page).to have_content("#{@discount4.name} discount applied!")
