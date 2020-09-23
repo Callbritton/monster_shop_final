@@ -54,8 +54,6 @@ class Cart
 
   def find_discount(item_id)
     item = Item.find(item_id)
-    # This will determine if the count of items is enough for the minimum_quantity,
-    # and then order the items by percent, with the last one being the highest percent (and thus highest discount)
     item.merchant.discounts.where("? >= minimum_quantity", count_of(item_id)).order(:percent).pluck(:percent).last
   end
 
