@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get :root, to: 'welcome#index'
+  get "/", to: "welcome#index"
 
   resources :merchants do
     resources :items, only: [:index]
@@ -33,7 +34,6 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#login'
   get '/logout', to: 'sessions#logout'
 
-  get "/", to: "home#index"
 
   namespace :merchant do
     get '/', to: 'dashboard#index', as: :dashboard
