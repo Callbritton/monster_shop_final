@@ -54,7 +54,7 @@ class Cart
 
   def find_discount(item_id)
     item = Item.find(item_id)
-    item.merchant.discounts.where("? >= minimum_quantity", count_of(item_id)).order(:percent).pluck(:percent).last
+    item.merchant.discounts.where("? >= minimum_quantity", count_of(item_id)).order(percent: :desc).limit(1).pluck(:percent).first
   end
 
   def discount_name(item_id)
