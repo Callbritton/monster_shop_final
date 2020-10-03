@@ -48,7 +48,9 @@ Rails.application.routes.draw do
 
 
   get '/registration', to: 'users#new', as: :registration
+
   resources :users, only: [:create, :update]
+
   patch '/user/:id', to: 'users#update'
   get '/profile', to: 'users#show'
   get '/profile/edit', to: 'users#edit'
