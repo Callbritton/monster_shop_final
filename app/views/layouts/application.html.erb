@@ -26,7 +26,7 @@
       <% end %>
       <%= link_to 'Merchants', '/merchants' %>
       <%= link_to 'Items', '/items' %>
-      <%= link_to "Cart: #{cart.count}", cart_index_path unless current_user && current_admin?%>
+      <%= link_to "Cart: #{cart.count}", cart_path unless current_user && current_admin?%>
     </nav>
     <% flash.each do |type, message| %>
     <p><%= message %></p>
