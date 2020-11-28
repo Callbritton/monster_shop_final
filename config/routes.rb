@@ -3,49 +3,46 @@ Rails.application.routes.draw do
   get :root, to: 'welcome#index'
   get "/", to: "welcome#index"
 
-  # Add handrolled routes in place of resources:
+  # Remove handrolled routes for resources and merchants:
 
-  # resources :merchants do
-  #   resources :items, only: [:index]
-  # end
-  #
-  # resources :items, only: [:index, :show] do
-  #   resources :reviews, only: [:new, :create]
-  # end
-  #
-  # resources :reviews, only: [:edit, :update, :destroy]
+  resources :merchants do
+    resources :items, only: [:index]
+  end
 
-  get '/merchants/new', to: 'merchants#new'
-  post '/merchants', to: 'merchants#create'
-  get '/merchants', to: 'merchants#index'
-  get '/merchants/:id', to: 'merchants#show'
-  get '/merchants/:id/edit', to: 'merchants#edit'
-  patch '/merchants/:id', to: 'merchants#update'
-  delete '/merchants/:id', to: 'merchants#destroy', as: 'merchant'
-  get '/merchants/:merchant_id/items', to: 'items#index'
+  resources :items, only: [:index, :show] do
+    resources :reviews, only: [:new, :create]
+  end
 
-  get '/items', to: 'items#index', as: 'items'
-  get '/items/:id', to: 'items#show', as: 'item'
-  get '/items/:item_id/reviews', to: 'reviews#new', as: 'new_item_review'
-  post '/items/:item_id/reviews', to: 'reviews#create', as: 'item_reviews'
+  resources :reviews, only: [:edit, :update, :destroy]
 
-  get '/reviews/:id/edit', to: 'reviews#edit', as: 'edit_review'
-  patch '/reviews/:id', to: 'reviews#update'
-  delete '/reviews/:id', to: 'reviews#destroy', as: 'review'
+  # get '/merchants/new', to: 'merchants#new'
+  # post '/merchants', to: 'merchants#create'
+  # get '/merchants', to: 'merchants#index'
+  # get '/merchants/:id', to: 'merchants#show'
+  # get '/merchants/:id/edit', to: 'merchants#edit'
+  # patch '/merchants/:id', to: 'merchants#update'
+  # delete '/merchants/:id', to: 'merchants#destroy', as: 'merchant'
+  # get '/merchants/:merchant_id/items', to: 'items#index'
 
-  # get '/cart', to: 'cart#show'
-  # post '/cart/:item_id', to: 'cart#add_item'
-  # delete '/cart', to: 'cart#empty'
-  # patch '/cart/:change/:item_id', to: 'cart#update_quantity'
-  # delete '/cart/:item_id', to: 'cart#remove_item'
+  # get '/items', to: 'items#index', as: 'items'
+  # get '/items/:id', to: 'items#show', as: 'item'
+  # get '/items/:item_id/reviews', to: 'reviews#new', as: 'new_item_review'
+  # post '/items/:item_id/reviews', to: 'reviews#create', as: 'item_reviews'
 
-  # Add resources for cart to eliminated the handrolled routes:
-  resources :cart, only: [:create, :update, :destroy]
+  # Add resources for reviews to eliminate handrolled routes
 
-  # Not sure how to wrap these show and empty actions into the resources:
-  get "/cart", to: "cart#show"
+  # get '/reviews/:id/edit', to: 'reviews#edit', as: 'edit_review'
+  # patch '/reviews/:id', to: 'reviews#update'
+  # delete '/reviews/:id', to: 'reviews#destroy', as: 'review'
+
+  get '/cart', to: 'cart#show'
+  post '/cart/:item_id', to: 'cart#add_item'
   delete '/cart', to: 'cart#empty'
+  patch '/cart/:change/:item_id', to: 'cart#update_quantity'
+  delete '/cart/:item_id', to: 'cart#remove_item'
 
+  # Handrolled cart
+  # resources :cart, only: [:create, :update, :destroy]
 
   get '/registration', to: 'users#new', as: :registration
 
